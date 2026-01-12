@@ -43,12 +43,12 @@ class GuessingGameGUI:
         raw = self.guess_var.get().strip()
 
         if not raw.isdigit():
-            self.result_label.config(text="Enter a whole number (1–100).")
+            self.result_label.config(text="Enter a whole number (1–100).",fg="black")
             return
 
         guess = int(raw)
         if guess < 1 or guess > 100:
-            self.result_label.config(text="Out of range. Pick 1–100.")
+            self.result_label.config(text="Out of range. Pick 1–100.",fg="black")
             return
 
         self.tries += 1
@@ -58,23 +58,29 @@ class GuessingGameGUI:
         if guess < self.secret:
             if diff > 25:
                 msg = "Way too low."
+                color = "blue"
             elif diff > 10:
                 msg = "A bit low."
+                color = "orange"
             else:
                 msg = "Very close, but low."
+                color = "red"
         elif guess > self.secret:
             if diff > 25:
                 msg = "Way too high."
+                color = "blue"
             elif diff > 10:
                 msg = "A bit high."
+                color = "orange"
             else:
                 msg = "Very close, but high."
+                color = "red"
         else:
             messagebox.showinfo("Correct!", f"You got it in {self.tries} tries!")
             self.new_game()
             return
 
-        self.result_label.config(text=msg)
+        self.result_label.config(text=msg, fg=color)
 
         # Clear entry for next guess
         self.guess_var.set("")
@@ -84,7 +90,10 @@ class GuessingGameGUI:
         self.secret = random.randint(1, 100)
         self.tries = 0
         self.guess_var.set("")
-        self.result_label.config(text="New game started. Make a guess!")
+        self.result_label.config(
+            text="New game started. Make a guess!",
+            fg="black"
+        )
         self.entry.focus()
 
 
