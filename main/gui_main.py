@@ -53,14 +53,28 @@ class GuessingGameGUI:
 
         self.tries += 1
 
+        diff = abs(guess - self.secret)
+
         if guess < self.secret:
-            self.result_label.config(text="Too low.")
+            if diff > 25:
+                msg = "Way too low."
+            elif diff > 10:
+                msg = "A bit low."
+            else:
+                msg = "Very close, but low."
         elif guess > self.secret:
-            self.result_label.config(text="Too high.")
+            if diff > 25:
+                msg = "Way too high."
+            elif diff > 10:
+                msg = "A bit high."
+            else:
+                msg = "Very close, but high."
         else:
             messagebox.showinfo("Correct!", f"You got it in {self.tries} tries!")
             self.new_game()
             return
+
+        self.result_label.config(text=msg)
 
         # Clear entry for next guess
         self.guess_var.set("")
